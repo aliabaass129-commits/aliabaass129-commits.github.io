@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M.A.S Tours & Travels</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:Poppins;
+color:#fff;
+background:#051f18 url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='50,0 100,50 50,100 0,50' fill='none' stroke='%23FFD700' stroke-opacity='0.08'/%3E%3C/svg%3E");
+background-size:120px 120px;
+animation:pageFade 1s ease;
+overflow-x:hidden;
+overflow-y:scroll; /* main page scroll */
+}
+
+@keyframes pageFade{
+from{opacity:0}
+to{opacity:1}
+}
+
+/* LOADER */
+
+#luxLoader{
+position:fixed;
+inset:0;
+background:#051f18;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:999999;
+transition:opacity 1s ease;
+}
+
+.loaderContent{text-align:center;color:gold;font-family:Cinzel}
+
+.crescent{
+width:80px;height:80px;border-radius:50%;background:gold;
+position:relative;animation:rotateMoon 4s linear infinite;
+}
+.crescent::after{
+content:"";position:absolute;left:20px;width:80px;height:80px;
+background:#051f18;border-radius:50%;
+}
+@keyframes rotateMoon{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* HEADER */
+
+.luxHeader{
+background:rgba(3,23,16,.8);
+backdrop-filter:blur(8px);
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+padding:15px;
+}
+
+.moonIcon{
+width:35px;height:35px;background:gold;border-radius:50%;
+position:relative;animation:pulseMoon 3s infinite;
+}
+.moonIcon::after{
+content:"";position:absolute;left:8px;width:35px;height:35px;
+background:#051f18;border-radius:50%;
+}
+@keyframes pulseMoon{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.2)}
+}
+
+/* BANNER */
+
+.luxBanner{
+height:70vh;
+background:
+linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+url('https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1600');
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.bannerContent h1{
+font-family:Cinzel;
+font-size:clamp(2rem,5vw,3.5rem);
+color:gold;
+margin-bottom:20px;
+text-shadow:0 0 20px gold;
+}
+
+.bannerContent button{
+background:gold;
+color:#000;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* GRID */
+
+.packages{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+padding:40px;
+max-width:1300px;
+margin:auto;
+}
+
+@media(max-width:600px){
+.packages{grid-template-columns:repeat(2,1fr)}
+}
+
+/* PACKAGE */
+
+.package{
+position:relative;
+background:rgba(13,59,45,.6);
+backdrop-filter:blur(10px);
+border-radius:15px;
+overflow:hidden;
+animation:fadeUp .8s ease forwards;
+opacity:0;
+}
+
+.package::before{
+content:"";
+position:absolute;
+inset:0;
+border-radius:15px;
+padding:2px;
+background:linear-gradient(45deg,gold,white,gold);
+background-size:300% 300%;
+animation:borderMove 6s linear infinite;
+-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+pointer-events:none;
+}
+
+@keyframes borderMove{
+0%{background-position:0%}
+100%{background-position:300%}
+}
+
+@keyframes fadeUp{
+from{transform:translateY(40px);opacity:0}
+to{transform:translateY(0);opacity:1}
+}
+
+.package img{width:100%;height:160px;object-fit:cover}
+.content{padding:15px}
+
+button{
+background:gold;border:none;padding:8px 14px;
+border-radius:6px;font-weight:bold;cursor:pointer;margin-top:10px
+}
+
+/* POPUP — now with scrollable content if needed */
+.overlay{
+position:fixed;inset:0;background:rgba(0,0,0,.9);
+display:flex;align-items:center;justify-content:center;z-index:9999
+}
+
+.popup{
+background:rgba(6,40,31,.7);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,215,0,.3);
+padding:25px;border-radius:10px;
+width:90%;max-width:600px;
+/* --- ADDED SCROLL for admin panel content --- */
+max-height:80vh;          /* limits height relative to viewport */
+overflow-y:auto;           /* enables vertical scroll inside popup */
+/* --------------------------------------------- */
+}
+
+.popup input{
+width:100%;padding:8px;margin:6px 0;
+border-radius:5px;border:1px solid gold;
+background:#0d3b2d;color:#fff
+}
+
+/* REVIEWS */
+
+.reviewWrap{
+background:#031710;
+padding:50px 0;
+margin-top:50px;
+text-align:center;
+overflow:hidden;
+}
+
+.reviewTrack{
+display:flex;
+gap:30px;
+animation:scroll 25s linear infinite;
+width:max-content;
+}
+
+.review{
+min-width:320px;
+background:rgba(13,59,45,.6);
+padding:20px;
+border-radius:12px;
+}
+
+@keyframes scroll{
+0%{transform:translateX(0)}
+100%{transform:translateX(-50%)}
+}
+
+/* PARTICLES */
+
+.particle{
+position:fixed;width:6px;height:6px;background:gold;
+border-radius:50%;opacity:.6;animation:floatUp 8s linear infinite;
+pointer-events:none;
+}
+@keyframes floatUp{
+0%{transform:translateY(100vh) scale(0);opacity:0}
+10%{opacity:.7}
+100%{transform:translateY(-10vh) scale(1);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div id="luxLoader">
+<div class="loaderContent">
+<div class="crescent"></div>
+<h1>M.A.S Tours & Travels</h1>
+</div>
+</div>
+
+<header class="luxHeader">
+<div class="moonIcon"></div>
+<b>M.A.S TOURS & TRAVELS</b>
+</header>
+
+<section class="luxBanner">
+<div class="bannerContent">
+<h1>Premium Hajj & Umrah Packages</h1>
+<button onclick="document.getElementById('pkgContainer').scrollIntoView({behavior:'smooth'})">
+Explore Packages
+</button>
+</div>
+</section>
+
+<section class="packages" id="pkgContainer"></section>
+
+<div class="reviewWrap">
+<h3 style="color:gold;font-family:Cinzel;margin-bottom:20px">Customer Reviews</h3>
+<div class="reviewTrack">
+<div class="review">⭐ Luxury Umrah experience</div>
+<div class="review">⭐ Excellent service near Haram</div>
+<div class="review">⭐ Smooth booking process</div>
+<div class="review">⭐ Premium arrangements</div>
+<div class="review">⭐ Highly recommended</div>
+<div class="review">⭐ Luxury Umrah experience</div>
+</div>
+</div>
+
+<div class="adminBtn" onclick="adminLogin()" style="position:fixed;bottom:20px;right:20px;background:gold;color:#000;padding:12px;border-radius:10px;cursor:pointer;font-weight:bold">ADMIN</div>
+
+<script>
+
+/* Loader */
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+document.getElementById("luxLoader").style.opacity="0";
+setTimeout(()=>luxLoader.remove(),1000);
+},1500);
+});
+
+/* Floating particles */
+function createParticle(){
+let p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),8000);
+}
+setInterval(createParticle,400);
+
+/* PACKAGES */
+const defaultPackages=[
+{name:"Economy Umrah",price:79000,city:"Mumbai",seats:10,desc:"4★ Hotel Near Haram",img:"https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800"},
+{name:"Premium Umrah",price:99000,city:"Delhi",seats:5,desc:"5★ Luxury Stay",img:"https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800"}
+];
+
+let packages=JSON.parse(localStorage.getItem("masPackages"))||defaultPackages;
+function savePackages(){localStorage.setItem("masPackages",JSON.stringify(packages));}
+
+function renderPackages(){
+pkgContainer.innerHTML=packages.map((p,i)=>`
+<div class="package">
+<img src="${p.img}">
+<div class="content">
+<h3 style="color:gold">${p.name}</h3>
+<p>₹${p.price}</p>
+<p>${p.desc}</p>
+<p>Seats: ${p.seats}</p>
+<button onclick="book(${i})">Book Now</button>
+</div>
+</div>
+`).join('');
+}
+
+/* BOOKING */
+
+function book(index){
+let p=packages[index];
+let div=document.createElement("div");
+div.className="overlay";
+div.innerHTML=`
+<div class="popup">
+<h2 style="color:gold">${p.name}</h2>
+<p>Price: ₹${p.price}</p>
+<p>Seats Available: ${p.seats}</p>
+
+<h3 style="color:gold;margin-top:10px">Required Documents</h3>
+<p>• Original Passport (valid until 31 January 2027)</p>
+<p>• Passport Photographs (white background)</p>
+<p>• Aadhaar Card (self-attested)</p>
+<p>• PAN Card (if required)</p>
+
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone">
+<input id="city" placeholder="City">
+<input id="travellers" type="number" placeholder="Travellers">
+
+<button onclick="confirmBooking(${index})">Confirm Booking</button>
+<button onclick="this.closest('.overlay').remove()" style="background:#444;color:#fff;margin-top:8px">Cancel</button>
+</div>`;
+document.body.appendChild(div);
+}
+
+function confirmBooking(index){
+let p=packages[index];
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let city=document.getElementById("city").value;
+let t=parseInt(document.getElementById("travellers").value);
+
+if(!name||!phone||!city||!t){alert("Fill all fields");return;}
+if(t>p.seats){alert("Not enough seats");return;}
+
+p.seats-=t;
+savePackages();
+renderPackages();
+
+let adminNumber="919730277234";
+
+let msg=`M.A.S TOURS BOOKING
+
+Name: ${name}
+Phone: ${phone}
+City: ${city}
+Package: ${p.name}
+Travellers: ${t}
+Price: ₹${p.price}
+
+Required Documents:
+Passport, Photos, Aadhaar, PAN`;
+
+window.open("https://wa.me/"+adminNumber+"?text="+encodeURIComponent(msg),"_blank");
+document.querySelector(".overlay").remove();
+}
+
+/* ADMIN */
+function adminLogin(){
+let pass=prompt("Enter Admin Password");
+if(pass!=="aslam_siddiqui7"){alert("Wrong Password");return;}
+openAdmin();
+}
+
+function openAdmin(){
+let div=document.createElement("div");
+div.className="overlay";
+
+div.innerHTML=`
+<div class="popup">
+<h2 style="color:gold">ADMIN PANEL</h2>
+<div id="adminList"></div>
+<hr>
+<h3>Add Package</h3>
+<input id="newName" placeholder="Name">
+<input id="newPrice" type="number" placeholder="Price">
+<input id="newCity" placeholder="City">
+<input id="newSeats" type="number" placeholder="Seats">
+<input id="newDesc" placeholder="Description">
+<input id="newImg" placeholder="Image URL">
+<button onclick="addPackage()">Add</button>
+<button onclick="this.closest('.overlay').remove()" style="background:#444;color:#fff;margin-top:8px">Close</button>
+</div>
+`;
+
+document.body.appendChild(div);
+renderAdmin();
+}
+
+function renderAdmin(){
+document.getElementById("adminList").innerHTML=
+packages.map((p,i)=>`
+<div style="background:#0d3b2d;padding:10px;margin:10px 0;border-radius:8px">
+<b style="color:gold">${p.name}</b><br>
+Seats:<input type="number" value="${p.seats}" onchange="updateSeat(${i},this.value)" style="width:60px"><br>
+Desc:<input value="${p.desc}" onchange="updateDesc(${i},this.value)"><br>
+<button onclick="deletePackage(${i})" style="background:red;color:#fff">Delete</button>
+</div>
+`).join('');
+}
+
+function updateSeat(i,v){packages[i].seats=parseInt(v)||0;savePackages();renderPackages();}
+function updateDesc(i,v){packages[i].desc=v;savePackages();renderPackages();}
+function deletePackage(i){
+if(confirm("Delete?")){
+packages.splice(i,1);
+savePackages();
+renderPackages();
+renderAdmin();
+}
+}
+
+function addPackage(){
+let name=newName.value;
+let price=parseInt(newPrice.value);
+let city=newCity.value;
+let seats=parseInt(newSeats.value);
+let desc=newDesc.value;
+let img=newImg.value;
+
+if(!name||!price||!city||!seats||!desc||!img){alert("Fill all");return;}
+
+packages.push({name,price,city,seats,desc,img});
+savePackages();
+renderPackages();
+renderAdmin();
+}
+
+renderPackages();
+</script>
+
+</body>
+</html>
